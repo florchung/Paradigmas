@@ -1,3 +1,6 @@
+module Anuncio (nuevoA, nombreA, duracionA, departamentoA, agregarA, sacarA, aplicarA)
+  where
+
 import Tipos
 
 data Anuncio = Anu Nombre [Departamento] Duracion deriving (Eq, Show, Ord)
