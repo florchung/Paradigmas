@@ -1,34 +1,35 @@
-module FileSystem (nuevoF, departamentoF, anunciosF, agregarAnuncioF, sacarAnuncioF, agregarDepartamentoF, sacarDepartamentoF, anunciosParaF)
-  where
+module FileSystem ( FileSystem, nuevoF, departamentosF, anunciosF, agregarAnuncioF, sacarAnuncioF, agregarDepartamentoF, sacarDepartamentoF, anunciosParaF )
+    where
 
 import Tipos
 import Anuncio
 
 data FileSystem = FS [Departamento] [Anuncio] deriving (Eq, Show)
+b= (agregarA "jorge" (nuevoA "mi" 21))
+c= (agregarA "jorge" (nuevoA "hola" 33))
+d= (agregarA "no" (nuevoA "chau" 2))
+nuevoF :: FileSystem                                              -- permite obtener un nuevo FileSystem
+nuevoF = (FS [] [] )
 
-nuevoF :: FileSystem
-nuevoF = FS [] []
+departamentosF :: FileSystem -> [ Departamento ]                  -- dado un FileSystem retorna los departamentos que incluye
+departamentosF (FS [departamento] [anuncio]) = [departamento]
 
-departamentosF :: FileSystem -> [Departamento]
-departamentosF (FS deps _) = deps
+anunciosF :: FileSystem -> [ Anuncio ]                            -- dado un FileSystem retorna los anuncios que incluye
+anunciosF (FS [departamento] [anuncio]) = [anuncio]
 
-anunciosF :: FileSystem -> [Anuncio]
-anunciosF (FS _ anuncios) = anuncios
+agregarAnuncioF :: Anuncio -> FileSystem -> FileSystem            -- permite agregar un anuncio  
+agregarAnuncioF anuncio (FS _ anuncios) | (elem anuncio anuncios) == False = (FS _ (anuncio:anuncios))
+                                        | True = (FS _ anuncios)
 
-agregarAnuncioF :: Anuncio -> FileSystem -> FileSystem
-agregarAnuncioF anuncio (FS deps anuncios) = FS deps (anuncio : anuncios)
+sacarAnuncioF :: Anuncio -> FileSystem -> FileSystem              -- permite eliminar un anuncio
+sacarAnuncioF anuncio (FS _ anuncios) = (FS _ anuncios2)
+                                               where anuncios2 = [anun|anun<-anuncios, anun/=anuncio]
+              
+agregarDepartamentoF :: Departamento -> FileSystem -> FileSystem  -- permite agregar un departamento
+agregarDepartamentoF depto (FS departamentos anuncios) 
 
-sacarAnuncioF :: Anuncio -> FileSystem -> FileSystem
-sacarAnuncioF anuncio (FS deps anuncios) = FS deps (filter (/= anuncio) anuncios)
+sacarDepartamentoF :: Departamento -> FileSystem -> FileSystem    -- permite eliminar un departamento
+sacarDepartamentoF depto (FS departamentos anuncios) 
 
-agregarDepartamentoF :: Departamento -> FileSystem -> FileSystem
-agregarDepartamentoF dep (FS deps anuncios) =
-    if dep `elem` deps 
-    then FS deps anuncios 
-    else FS (dep : deps) anuncios
-
-sacarDepartamentoF :: Departamento -> FileSystem -> FileSystem
-sacarDepartamentoF dep (FS deps anuncios) = FS (filter (/= dep) deps) anuncios
-
-anunciosParaF :: [Departamento] -> FileSystem -> [Anuncio]
-anunciosParaF deps (FS _ anuncios) = filter (aplicaA deps) anuncios
+anunciosParaF :: [Departamento] -> FileSystem -> [Anuncio]        -- entrega los anuncios a emitir para un conjunto de departamentos
+anunciosParaF departamentos (FS _ anuncios) = [anuncio|anuncio<-anuncios, (aplicaA departamentos anuncio)]
