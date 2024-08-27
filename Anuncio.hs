@@ -22,8 +22,8 @@ agregarA departamento (Anu nombre deps duracion) = (Anu nombre (deps++deps2) dur
      where deps2 = [depto|depto <- [departamento] , (elem departamento deps)==False]
 
 sacarA :: Departamento -> Anuncio -> Anuncio    -- permite quitarle un departamento a un anuncio
-sacarA departamento (Anu nombre deps duracion) = (Anu nombre departamento duracion)
-     where departamento = [depto|depto<-deps, depto/=departamento]
+sacarA departamento (Anu nombre deps duracion) = (Anu nombre departamento2 duracion)
+     where departamento2 = [depto |depto<-deps, depto/=departamento]
 
 aplicaA :: [ Departamento ] -> Anuncio -> Bool  -- responde si un anuncion debe emitirse para alguno de los departamentos consultados
 aplicaA deps (Anu nombre departamento duracion) = (length depto) == (length deps)
