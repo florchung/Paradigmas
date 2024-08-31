@@ -5,10 +5,8 @@ import Tipos
 import Anuncio
 
 data FileSystem = FS [Departamento] [Anuncio] deriving (Eq, Show)
-b= (agregarA "jorge" (nuevoA "mi" 21))
-c= (agregarA "jorge" (nuevoA "hola" 33))
-d= (agregarA "no" (nuevoA "chau" 2))
 
+-- Funcion auxiliar para insertar elementos en una lista ordenada
 insertar ::Ord a =>  a -> [a] -> [a]
 insertar a [] = [a]
 insertar a (x:xs)
@@ -17,16 +15,16 @@ insertar a (x:xs)
     | otherwise = x : insertar a xs
 
 nuevoF :: FileSystem                                              -- permite obtener un nuevo FileSystem
-nuevoF = (FS [] [] )
+nuevoF = FS [] []
 
 departamentosF :: FileSystem -> [ Departamento ]                  -- dado un FileSystem retorna los departamentos que incluye
-departamentosF (FS departamento anuncio) = departamento
+departamentosF (FS departamentos anuncios) = departamentos
 
 anunciosF :: FileSystem -> [ Anuncio ]                            -- dado un FileSystem retorna los anuncios que incluye
-anunciosF (FS departamento anuncio) = anuncio
+anunciosF (FS departamentos anuncios) = anuncios
 
 agregarAnuncioF :: Anuncio -> FileSystem -> FileSystem
-agregarAnuncioF anuncio (FS departamentos anuncios ) =  FS  depts (insertar anuncio  anuncios)
+agregarAnuncioF anuncio (FS departamentos anuncios ) = FS depts (insertar anuncio anuncios)
     where depts = foldr (insertar) departamentos (departamentosA anuncio)
 
 sacarAnuncioF :: Anuncio -> FileSystem -> FileSystem
@@ -46,10 +44,9 @@ sacarDepartamentoF depto (FS departamentos anuncios)
 
 anunciosParaF :: [Departamento] -> FileSystem -> [Anuncio]
 anunciosParaF departamentos (FS fsDeps anuncios)
-  | null anuncios = [] -- no hay anuncios en FS, devuelve lista vacia
-  | null validDeps = error "No existen anuncios para los departamentos dados, ni otros departamentos en el sistema"
-  | otherwise = anunciosValidos -- devuelve los anuncios validos para los departamentos filtrados
+  | null anuncios = [] -- no hay anuncios en FS, devuelve lista vacía
+  | null validDeps = [] -- no hay anuncios para los departamentos dados
+  | otherwise = anunciosValidos -- devuelve los anuncios válidos para los departamentos filtrados
   where
     validDeps = filter (`elem` fsDeps) departamentos
     anunciosValidos = filter (aplicaA validDeps) anuncios
-
