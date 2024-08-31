@@ -1,7 +1,7 @@
 module Prompter (Prompter, nuevoP, archivosR, departamentosP, configurarP, anunciosP, showP, avanzarP, duracionP)
     where
 
-import Tipos
+import Tipos ( Departamento, Duracion, Nombre )
 import Anuncio
 import FileSystem
 
