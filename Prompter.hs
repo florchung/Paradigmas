@@ -5,13 +5,12 @@ import Tipos
 import Anuncio
 import FileSystem
 
-
 --'Prompter' mantiene un 'FileSystem', la lista de departamentos configurados y un índice para la reproducción de anuncios.
 data Prompter = Pro FileSystem [Departamento] Int deriving (Eq, Show)
 
 --Crea un nuevo 'Prompter' a partir de un 'FileSystem', sin departamentos configurados y con el índice en 0.
 nuevoP :: FileSystem -> Prompter
-nuevoP fs = Pro fs [] 0
+nuevoP fs = Pro fs (departamentosF fs) 0
 
 --Devuelve el 'FileSystem' asociado a un 'Prompter'.
 archivosR :: Prompter -> FileSystem
