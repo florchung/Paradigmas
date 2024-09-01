@@ -44,8 +44,8 @@ sacarDepartamentoF depto (FS departamentos anuncios)
 
 anunciosParaF :: [Departamento] -> FileSystem -> [Anuncio]
 anunciosParaF departamentos (FS fsDeps anuncios)
-  | null anuncios = [] -- no hay anuncios en FS, devuelve lista vacía
-  | null validDeps = [] -- no hay anuncios para los departamentos dados
+  | null anuncios = []
+  | null departamentos = anuncios
   | otherwise = anunciosValidos -- devuelve los anuncios válidos para los departamentos filtrados
   where
     validDeps = filter (`elem` fsDeps) departamentos
