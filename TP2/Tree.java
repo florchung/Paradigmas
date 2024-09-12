@@ -58,14 +58,14 @@ public class Tree {
 
     public Tree left() {
         if (this.left == null) {
-            throw new RuntimeException("Nada a la siniestra");
+            throw new RuntimeException("Nada a la siniestra!");
         }
         return this.left;
     }
 
     public Tree right() {
         if (this.right == null) {
-            throw new RuntimeException("Nada a la diestra");
+            throw new RuntimeException("Nada a la diestra!");
         }
         return this.right;
     }
