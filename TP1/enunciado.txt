@@ -1,0 +1,70 @@
+Prompter
+
+En una conocida tienda de departamentos el area de promocion y marqueting decide contratar un nuevo servicio.
+El mismo consiste de un sistema que permite definir y reproducir todos los anuncios de video de la compañia.
+Luego de definir en el sistema de archivos de la aplicacion los anuncios con su duracion y departamentos a los que corresponde...
+...se configura el prompter para el piso o sector en el que va a emitir los anuncios y las areas alojadas en esa zona.
+
+Para sostener este modelo se cuenta con las siguientes entidades:
+
+module Tipos
+    where
+
+type Duracion = Int
+type Departamento = String
+type Nombre = String
+-----------------------
+
+module Anuncio ( Anuncio, nuevoA, nombreA, duracionA, departamentosA, agreagarA, sacarA, aplicaA )
+  where
+
+import Tipos
+
+data Anuncio = Anu Nombre [ Departamento ] Duracion deriving (Eq, Show, Ord)
+
+nuevoA :: Nombre -> Duracion -> Anuncio         -- dado un nombre y una duracion en segundos retorna un nuevo Anuncio
+nombreA :: Anuncio -> Nombre                    -- dado un anuncio retorna su nombre
+duracionA :: Anuncio -> Duracion                -- dado un anuncio retorna su duración
+departamentosA :: Anuncio -> [ Departamento ]   -- dado un anuncio retorna los departamentos que le fueron asociados
+agreagarA :: Departamento -> Anuncio -> Anuncio -- permite asignar un departamento a un anuncio
+sacarA :: Departamento -> Anuncio -> Anuncio    -- permite quitarle un departamento a un anuncio
+aplicaA :: [ Departamento ] -> Anuncio -> Bool  -- responde si un anuncion debe emitirse para alguno de los departamentos consultados
+
+-----------------
+module FileSystem ( FileSystem, nuevoF, departamentosF, anunciosF, agregarAnuncioF, sacarAnuncioF, agregarDepartamentoF, sacarDepartamentoF, anunciosParaF )
+    where
+
+import Tipos
+import Anuncio
+
+data FileSystem = FS [Departamento] [Anuncio] deriving (Eq, Show)
+
+nuevoF :: FileSystem                                              -- permite obtener un nuevo FileSystem
+departamentosF :: FileSystem -> [ Departamento ]                  -- dado un FileSystem retorna los departamentos que incluye
+anunciosF :: FileSystem -> [ Anuncio ]                            -- dado un FileSystem retorna los anuncios que incluye
+agregarAnuncioF :: Anuncio -> FileSystem -> FileSystem            -- permite agregar un anuncio  
+sacarAnuncioF :: Anuncio -> FileSystem -> FileSystem              -- permite eliminar un anuncio
+agregarDepartamentoF :: Departamento -> FileSystem -> FileSystem  -- permite agregar un departamento
+sacarDepartamentoF :: Departamento -> FileSystem -> FileSystem    -- permite eliminar un departamento
+anunciosParaF :: [Departamento] -> FileSystem -> [Anuncio]        -- entrega los anuncios a emitir para un conjunto de departamentos
+
+------------------
+module Prompter ( Prompter, nuevoP, archivosR, departamentosP, configurarP, anunciosP, showP, avanzarP, duracionP )
+    where
+
+import Tipos
+import Anuncio
+import FileSystem
+
+data Prompter = Pro FileSystem  [Departamento] Int deriving (Eq, Show)
+
+nuevoP :: FileSystem -> Prompter                       -- permite obtener un nuevo Prompter en base a un FileSystem
+archivosR :: Prompter -> FileSystem                    -- dado un prompter retorna su fileSystem
+departamentosP :: Prompter -> [Departamento]           -- dado un prompter retorna sus departamentos
+configurarP :: Prompter -> [Departamento] -> Prompter  -- Prepara el prompter para emitir los anuncios en los departementos indicados
+nunciosP :: Prompter ->  [Nombre]                      -- entrega la lista de nombres de anuncios configurados
+showP :: Prompter -> Anuncio                           -- muestra el anuncio actual 
+avanzarP :: Prompter -> Prompter                       -- pasa al siguiente anuncio
+duracionP :: Prompter -> Duracion                      -- indica la duracion total de los anuncios configurados  
+
+
