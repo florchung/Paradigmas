@@ -3,6 +3,12 @@ package tree;
 import java.util.LinkedList;
 import java.util.List;
 
+/* private class Node {
+    private Object value;
+    private Object left;
+    private Object right;
+} */
+
 public class Tree {
     private String carga;
     private Tree left;
