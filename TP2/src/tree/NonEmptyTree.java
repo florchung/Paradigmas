@@ -1,63 +1,85 @@
 package tree;
 
-public class NonEmptyTree extends Tree {
-    private Object carga;
-    private Tree left;
-    private Tree right;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
-    public NonEmptyTree(Object carga) {
+class NonEmptyTree extends TreeState {
+    private char carga;
+    private TreeState left;
+    private TreeState right;
+
+    public NonEmptyTree(char carga, TreeState left, TreeState right) {
         this.carga = carga;
-        this.left = new EmptyTree(); // Inicializa con nodos vacios
-        this.right = new EmptyTree();
+        this.left = left;
+        this.right = right;
     }
 
-    public List<Object> dfs() {
-        List<Object> result = new LinkedList<>();
-        result.add(carga);
-        result.addAll(left.dfs());
-        result.addAll(right.dfs());
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public char carga() {
+        return carga;
+    }
+
+    @Override
+    public TreeState left() {
+        return left;
+    }
+
+    @Override
+    public TreeState right() {
+        return right;
+    }
+
+    @Override
+    public TreeState atLeft(TreeState left) {
+        return new NonEmptyTree(carga, left, right);
+    }
+
+    @Override
+    public TreeState atRight(TreeState right) {
+        return new NonEmptyTree(carga, left, right);
+    }
+
+    @Override
+    public List<Character> dfs() {
+        List<Character> result = new ArrayList<>();
+        dfsHelper(this, result);
         return result;
     }
 
-    public List<Object> bfs() {
-        List<Object> result = new LinkedList<>();
-        List<Tree> queue = new LinkedList<>();
+    private void dfsHelper(TreeState node, List<Character> result) {
+        if (node.isEmpty()) {
+            return;
+        }
+        NonEmptyTree nonEmptyNode = (NonEmptyTree) node;
+        result.add(nonEmptyNode.carga);
+        dfsHelper(nonEmptyNode.left, result);
+        dfsHelper(nonEmptyNode.right, result);
+    }
+
+    @Override
+    public List<Character> bfs() {
+        List<Character> result = new ArrayList<>();
+        Queue<TreeState> queue = new LinkedList<>();
         queue.add(this);
 
         while (!queue.isEmpty()) {
-            Tree current = queue.remove(0);
-            result.add(current.carga());
-            if (!(current.left() instanceof EmptyTree)) {
-                queue.add(current.left());
+            TreeState node = queue.poll();
+            if (node.isEmpty()) {
+                continue;
             }
-            if (!(current.right() instanceof EmptyTree)) {
-                queue.add(current.right());
-            }
+            NonEmptyTree nonEmptyNode = (NonEmptyTree) node;
+            result.add(nonEmptyNode.carga);
+            queue.add(nonEmptyNode.left);
+            queue.add(nonEmptyNode.right);
         }
+
         return result;
     }
-    /*super(tree);*/
-
-    public Tree atLeft(Tree left) {
-        this.left = left;
-        return this;
-    }
-
-    public Tree atRight(Tree right) {
-        this.right = right;
-        return this;
-    }
-
-    public Tree left() {
-        return this.left; // Nodo vacio devuelve a si mismo
-    }
-
-    public Tree right() {
-        return this.right; // Nodo vacio devuelve a si mismo
-    }
-
-    public Object carga() {
-        return this.carga;
-    }
-
 }
