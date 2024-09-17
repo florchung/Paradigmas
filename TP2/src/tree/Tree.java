@@ -1,75 +1,57 @@
 package tree;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class Tree {
-    private Object carga;
-    private Tree left;
-    private Tree right;
+    private final TreeState state;
 
-    public Tree(Object carga) {
-        this.carga = carga;
+    // Constructor para un solo carácter
+    public Tree(char carga) {
+        this.state = new NonEmptyTree(carga, new EmptyTree(), new EmptyTree());
     }
 
-    public List<Object> dfs() {
-        List<Object> result = new LinkedList<>();
-        dfsHelper(this, result);
-        return result;
-    }
-
-    private void dfsHelper (Tree node, List<Object> result) {
-        if (node == null) {
-            return;
+    // Constructor para una cadena (conversión de String a char)
+    public Tree(String carga) {
+        if (carga.length() != 1) {
+            throw new IllegalArgumentException("String must be of length 1");
         }
-        result.add(node.carga);
-        dfsHelper(node.left, result);
-        dfsHelper(node.right, result);
+        this.state = new NonEmptyTree(carga.charAt(0), new EmptyTree(), new EmptyTree());
     }
 
-    public List<Object> bfs() {
-        List<Object> result = new LinkedList<>();
-        List<Tree> queue = new LinkedList<>();
-        queue.add(this);
-
-        while (!queue.isEmpty()) {
-            Tree current = queue.remove(0);
-            result.add(current.carga);
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
-        return result;
+    // Constructor para TreeState
+    private Tree(TreeState state) {
+        this.state = state;
     }
 
-    public Tree atLeft( Tree left ) {
-        this.left = left;
-        return this;
+    public Tree atLeft(Tree left) {
+        return new Tree(state.atLeft(left.state));
     }
 
-    public Tree atRight( Tree right ) {
-        this.right = right;
-        return this;
+    public Tree atRight(Tree right) {
+        return new Tree(state.atRight(right.state));
+    }
+
+    public boolean isEmpty() {
+        return state.isEmpty();
+    }
+
+    public char carga() {
+        return state.carga();
     }
 
     public Tree left() {
-        if (this.left == null) {
-            throw new RuntimeException("Nada a la siniestra!");
-        }
-        return this.left;
+        return new Tree(state.left());
     }
 
     public Tree right() {
-        if (this.right == null) {
-            throw new RuntimeException("Nada a la diestra!");
-        }
-        return this.right;
+        return new Tree(state.right());
     }
 
-    public Object carga() {
-        return this.carga;
+    public List<Character> dfs() {
+        return state.dfs();
+    }
+
+    public List<Character> bfs() {
+        return state.bfs();
     }
 }
