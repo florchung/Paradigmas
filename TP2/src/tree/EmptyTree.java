@@ -13,11 +13,11 @@ class EmptyTree extends TreeState {
     }
 
     public TreeState left() {
-        throw new IllegalStateException("Tree is empty");
+        throw new IllegalStateException("Nada a la siniestra!");
     }
 
     public TreeState right() {
-        throw new IllegalStateException("Tree is empty");
+        throw new IllegalStateException("Nada a la diestra!");
     }
 
     public TreeState atLeft(TreeState left) {
