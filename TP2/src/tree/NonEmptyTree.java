@@ -12,41 +12,35 @@ class NonEmptyTree extends TreeState {
 
     public NonEmptyTree(char carga, TreeState left, TreeState right) {
         this.carga = carga;
-        this.left = left;
-        this.right = right;
+        // Si no se especifican, los lados deben ser EmptyTree
+        this.left = (left == null) ? new EmptyTree() : left;
+        this.right = (right == null) ? new EmptyTree() : right;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public char carga() {
         return carga;
     }
 
-    @Override
     public TreeState left() {
         return left;
     }
 
-    @Override
     public TreeState right() {
         return right;
     }
 
-    @Override
     public TreeState atLeft(TreeState left) {
         return new NonEmptyTree(carga, left, right);
     }
 
-    @Override
     public TreeState atRight(TreeState right) {
         return new NonEmptyTree(carga, left, right);
     }
 
-    @Override
     public List<Character> dfs() {
         List<Character> result = new ArrayList<>();
         dfsHelper(this, result);
@@ -63,7 +57,6 @@ class NonEmptyTree extends TreeState {
         dfsHelper(nonEmptyNode.right, result);
     }
 
-    @Override
     public List<Character> bfs() {
         List<Character> result = new ArrayList<>();
         Queue<TreeState> queue = new LinkedList<>();
