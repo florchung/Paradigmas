@@ -13,7 +13,7 @@ public class Tree {
     // Constructor para una cadena (conversión de String a char)
     public Tree(String carga) {
         if (carga.length() != 1) {
-            throw new IllegalArgumentException("String must be of length 1");
+            throw new IllegalArgumentException("String tiene que ser de largo 1");
         }
         this.state = new NonEmptyTree(carga.charAt(0), new EmptyTree(), new EmptyTree());
     }
@@ -40,10 +40,18 @@ public class Tree {
     }
 
     public Tree left() {
+        // Lanzar excepción si el lado izquierdo es EmptyTree
+        if (state.left().isEmpty()) {
+            throw new IllegalStateException("Nada a la siniestra!");
+        }
         return new Tree(state.left());
     }
 
     public Tree right() {
+        // Lanzar excepción si el lado derecho es EmptyTree
+        if (state.right().isEmpty()) {
+            throw new IllegalStateException("Nada a la diestra!");
+        }
         return new Tree(state.right());
     }
 
