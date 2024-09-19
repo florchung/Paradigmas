@@ -9,7 +9,7 @@ class EmptyTree extends TreeState {
     }
 
     public char carga() {
-        throw new IllegalStateException("Tree is empty");
+        throw new IllegalStateException("Tree vacío!");
     }
 
     public TreeState left() {
@@ -21,11 +21,11 @@ class EmptyTree extends TreeState {
     }
 
     public TreeState atLeft(TreeState left) {
-        return new NonEmptyTree(' ', left, this); // Arbitrary value for root
+        return new NonEmptyTree(' ', left, this);
     }
 
     public TreeState atRight(TreeState right) {
-        return new NonEmptyTree(' ', this, right); // Arbitrary value for root
+        return new NonEmptyTree(' ', this, right);
     }
 
     public List<Character> dfs() {
