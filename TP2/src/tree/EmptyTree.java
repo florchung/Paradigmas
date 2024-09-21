@@ -1,38 +1,18 @@
 package tree;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 class EmptyTree extends TreeState {
-    public boolean isEmpty() {
-        return true;
+    public Tree left() {
+        throw new RuntimeException("Nada a la siniestra!");
     }
 
-    public char carga() {
-        throw new IllegalStateException("Tree vacío!");
+    public Tree right() {
+        throw new RuntimeException("Nada a la diestra!");
     }
 
-    public TreeState left() {
-        throw new IllegalStateException("Nada a la siniestra!");
-    }
-
-    public TreeState right() {
-        throw new IllegalStateException("Nada a la diestra!");
-    }
-
-    public TreeState atLeft(TreeState left) {
-        return new NonEmptyTree(' ', left, this);
-    }
-
-    public TreeState atRight(TreeState right) {
-        return new NonEmptyTree(' ', this, right);
-    }
-
-    public List<Character> dfs() {
-        return Collections.emptyList();
-    }
-
-    public List<Character> bfs() {
-        return Collections.emptyList();
+    public List<Object> dfs(List<Object> result) {
+        return new ArrayList();
     }
 }
