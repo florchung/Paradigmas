@@ -6,59 +6,29 @@ import java.util.List;
 import java.util.Queue;
 
 class NonEmptyTree extends TreeState {
-    private char carga;
-    private TreeState left;
-    private TreeState right;
+    private Tree tree;
 
-    public NonEmptyTree(char carga, TreeState left, TreeState right) {
-        this.carga = carga;
-        // Si no se especifican, los lados deben ser EmptyTree
-        this.left = (left == null) ? new EmptyTree() : left;
-        this.right = (right == null) ? new EmptyTree() : right;
+
+    public NonEmptyTree(Tree tree) {
+        this.tree = tree;
+
     }
 
-    public boolean isEmpty() {
-        return false;
+    public Tree left() {
+        return tree;
     }
 
-    public char carga() {
-        return carga;
+    public Tree right() {
+        return tree;
+    }
+   public List<Object> dfs(List<Object> result) {
+       result.add(left().carga());
+       return result;
     }
 
-    public TreeState left() {
-        return left;
-    }
-
-    public TreeState right() {
-        return right;
-    }
-
-    public TreeState atLeft(TreeState left) {
-        return new NonEmptyTree(carga, left, right);
-    }
-
-    public TreeState atRight(TreeState right) {
-        return new NonEmptyTree(carga, left, right);
-    }
-
-    public List<Character> dfs() {
-        List<Character> result = new ArrayList<>();
-        dfsHelper(this, result);
-        return result;
-    }
-
-    private void dfsHelper(TreeState node, List<Character> result) {
-        if (node.isEmpty()) {
-            return;
-        }
-        NonEmptyTree nonEmptyNode = (NonEmptyTree) node;
-        result.add(nonEmptyNode.carga);
-        dfsHelper(nonEmptyNode.left, result);
-        dfsHelper(nonEmptyNode.right, result);
-    }
-
-    public List<Character> bfs() {
-        List<Character> result = new ArrayList<>();
+/*
+    public List<Object> bfs() {
+        List<Object> result = new ArrayList<>();
         Queue<TreeState> queue = new LinkedList<>();
         queue.add(this);
 
@@ -74,5 +44,5 @@ class NonEmptyTree extends TreeState {
         }
 
         return result;
-    }
+    }*/
 }
