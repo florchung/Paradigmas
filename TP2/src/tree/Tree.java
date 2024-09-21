@@ -1,65 +1,56 @@
+
 package tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tree {
-    private final TreeState state;
+    private Object carga;
+    private TreeState left = new EmptyTree();
+    private TreeState right = new EmptyTree();
 
-    // Constructor para un solo carácter
-    public Tree(char carga) {
-        this.state = new NonEmptyTree(carga, new EmptyTree(), new EmptyTree());
+
+
+    public Tree(Object carga) {
+        this.carga = carga;
     }
 
-    // Constructor para una cadena (conversión de String a char)
-    public Tree(String carga) {
-        if (carga.length() != 1) {
-            throw new IllegalArgumentException("String tiene que ser de largo 1");
-        }
-        this.state = new NonEmptyTree(carga.charAt(0), new EmptyTree(), new EmptyTree());
-    }
-
-    // Constructor para TreeState
-    private Tree(TreeState state) {
-        this.state = state;
-    }
 
     public Tree atLeft(Tree left) {
-        return new Tree(state.atLeft(left.state));
+        this.left = new NonEmptyTree(left);
+        return this;
     }
 
     public Tree atRight(Tree right) {
-        return new Tree(state.atRight(right.state));
+        this.right = new NonEmptyTree(right);
+        return this;
     }
 
-    public boolean isEmpty() {
-        return state.isEmpty();
-    }
 
-    public char carga() {
-        return state.carga();
+    public Object carga() {
+        return carga;
     }
 
     public Tree left() {
-        // Lanzar excepción si el lado izquierdo es EmptyTree
-        if (state.left().isEmpty()) {
-            throw new IllegalStateException("Nada a la siniestra!");
-        }
-        return new Tree(state.left());
+        return left.left();
     }
+
 
     public Tree right() {
-        // Lanzar excepción si el lado derecho es EmptyTree
-        if (state.right().isEmpty()) {
-            throw new IllegalStateException("Nada a la diestra!");
-        }
-        return new Tree(state.right());
+        return right.right();
     }
 
-    public List<Character> dfs() {
-        return state.dfs();
+    public List<Object> dfs() {
+        List<Object> result = new ArrayList();
+        result.add(carga);
+        result.add(left.left().carga());
+        left().dfs(result);
+        return result;
+        //este dfs no lo hice con emilio asi q puede estar mal
     }
 
-    public List<Character> bfs() {
-        return state.bfs();
+
+    public List<Object> bfs() {
+        return null;
     }
 }
