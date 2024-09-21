@@ -1,7 +1,7 @@
 package tree;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 class EmptyTree extends TreeState {
     public Tree left() {
@@ -12,7 +12,11 @@ class EmptyTree extends TreeState {
         throw new RuntimeException("Nada a la diestra!");
     }
 
-    public List<Object> dfs(List<Object> result) {
-        return new ArrayList();
+    public void dfs(List<Object> result) {
+        // No hacemos nada porque es un nodo vacío
+    }
+
+    public void enqueueChildren(Queue<Tree> queue) {
+        // No agregamos nada a la cola porque es un nodo vacío
     }
 }
