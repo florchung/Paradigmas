@@ -7,11 +7,13 @@ import java.util.Queue;
 
 public class Tree {
     private Object carga;
-    private TreeState left = new EmptyTree();
-    private TreeState right = new EmptyTree();
+    private TreeState left;
+    private TreeState right;
 
     public Tree(Object carga) {
         this.carga = carga;
+        this.left = new EmptyTree();
+        this.right = new EmptyTree();
     }
 
     public Tree atLeft(Tree left) {
@@ -29,23 +31,19 @@ public class Tree {
     }
 
     public Tree left() {
-        return left.left();
+        return left.getTree("siniestra");
     }
 
     public Tree right() {
-        return right.right();
+        return right.getTree("diestra");
     }
 
     public List<Object> dfs() {
         List<Object> result = new ArrayList<>();
-        dfs(result);
+        result.add(this.carga);
+        result.addAll(left.dfs());
+        result.addAll(right.dfs());
         return result;
-    }
-
-    protected void dfs(List<Object> result) {
-        result.add(carga);
-        left.dfs(result);
-        right.dfs(result);
     }
 
     public List<Object> bfs() {
@@ -62,7 +60,7 @@ public class Tree {
     }
 
     private void enqueueChildren(Queue<Tree> queue) {
-        left.enqueueChildren(queue);
-        right.enqueueChildren(queue);
+        left.addToQueue(queue);
+        right.addToQueue(queue);
     }
 }
