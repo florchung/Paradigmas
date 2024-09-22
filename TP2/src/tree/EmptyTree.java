@@ -1,22 +1,20 @@
 package tree;
 
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-class EmptyTree extends TreeState {
-    public Tree left() {
-        throw new RuntimeException("Nada a la siniestra!");
+public class EmptyTree extends TreeState {
+    @Override
+    public Tree getTree(String side) {
+        throw new RuntimeException("Nada a la " + side + "!");
     }
 
-    public Tree right() {
-        throw new RuntimeException("Nada a la diestra!");
+    @Override
+    public List<Object> dfs() {
+        return new ArrayList<>();
     }
 
-    public void dfs(List<Object> result) {
-        // No hacemos nada porque es un nodo vacío
-    }
-
-    public void enqueueChildren(Queue<Tree> queue) {
-        // No agregamos nada a la cola porque es un nodo vacío
+    @Override
+    public void addToQueue(Queue<Tree> queue) {
+        // No hay nada que agregar
     }
 }
