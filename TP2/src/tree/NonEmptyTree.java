@@ -1,28 +1,26 @@
 package tree;
 
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
-class NonEmptyTree extends TreeState {
-    private Tree tree;
+public class NonEmptyTree extends TreeState {
+    private final Tree tree;
 
     public NonEmptyTree(Tree tree) {
         this.tree = tree;
     }
 
-    public Tree left() {
-        return tree.left();
+    @Override
+    public Tree getTree(String side) {
+        return this.tree;
     }
 
-    public Tree right() {
-        return tree.right();
+    @Override
+    public List<Object> dfs() {
+        return tree.dfs();
     }
 
-    public void dfs(List<Object> result) {
-        tree.dfs(result);  // Delegamos la llamada DFS al nodo interno del árbol
-    }
-
-    public void enqueueChildren(Queue<Tree> queue) {
-        queue.add(tree);  // Agregamos el nodo a la cola
+    @Override
+    public void addToQueue(Queue<Tree> queue) {
+        queue.add(this.tree);
     }
 }
