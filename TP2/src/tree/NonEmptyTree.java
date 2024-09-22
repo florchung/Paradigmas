@@ -9,12 +9,12 @@ public class NonEmptyTree extends TreeState {
         this.tree = tree;
     }
 
-    public Tree getLeftOrThrow() {
-        return this.tree;
+    public Tree left() {
+        return tree;
     }
 
-    public Tree getRightOrThrow() {
-        return this.tree;
+    public Tree right() {
+        return tree;
     }
 
     public List<Object> dfs() {
