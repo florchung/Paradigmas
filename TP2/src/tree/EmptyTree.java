@@ -3,18 +3,13 @@ package tree;
 import java.util.*;
 
 public class EmptyTree extends TreeState {
-    private final String side;
 
-    public EmptyTree(String side) {
-        this.side = side;
+    public Tree left() {
+        throw new RuntimeException("Nada a la siniestra!");
     }
 
-    public Tree getLeftOrThrow() {
-        throw new RuntimeException("Nada a la " + side + "!");
-    }
-
-    public Tree getRightOrThrow() {
-        throw new RuntimeException("Nada a la " + side + "!");
+    public Tree right() {
+        throw new RuntimeException("Nada a la diestra!");
     }
 
     public List<Object> dfs() {
@@ -22,6 +17,5 @@ public class EmptyTree extends TreeState {
     }
 
     public void addToQueue(Queue<Tree> queue) {
-        // No hay nada que agregar
     }
 }
