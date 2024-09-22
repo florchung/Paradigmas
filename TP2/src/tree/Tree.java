@@ -9,8 +9,8 @@ public class Tree {
 
     public Tree(Object carga) {
         this.carga = carga;
-        this.left = new EmptyTree("siniestra");
-        this.right = new EmptyTree("diestra");
+        this.left = new EmptyTree();
+        this.right = new EmptyTree();
     }
 
     public Tree atLeft(Tree left) {
@@ -28,11 +28,11 @@ public class Tree {
     }
 
     public Tree left() {
-        return left.getLeftOrThrow();
+        return left.left();
     }
 
     public Tree right() {
-        return right.getRightOrThrow();
+        return right.right();
     }
 
     public List<Object> dfs() {
@@ -51,13 +51,9 @@ public class Tree {
         while (!queue.isEmpty()) {
             Tree current = queue.poll();
             result.add(current.carga());
-            current.enqueueChildren(queue);
+            current.left.addToQueue(queue);
+            current.right.addToQueue(queue);
         }
         return result;
-    }
-
-    private void enqueueChildren(Queue<Tree> queue) {
-        left.addToQueue(queue);
-        right.addToQueue(queue);
     }
 }
