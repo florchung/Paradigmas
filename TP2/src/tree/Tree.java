@@ -1,9 +1,6 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Tree {
     private Object carga;
@@ -12,8 +9,8 @@ public class Tree {
 
     public Tree(Object carga) {
         this.carga = carga;
-        this.left = new EmptyTree();
-        this.right = new EmptyTree();
+        this.left = new EmptyTree("siniestra");
+        this.right = new EmptyTree("diestra");
     }
 
     public Tree atLeft(Tree left) {
@@ -31,11 +28,11 @@ public class Tree {
     }
 
     public Tree left() {
-        return left.getTree("siniestra");
+        return left.getLeftOrThrow();
     }
 
     public Tree right() {
-        return right.getTree("diestra");
+        return right.getRightOrThrow();
     }
 
     public List<Object> dfs() {
