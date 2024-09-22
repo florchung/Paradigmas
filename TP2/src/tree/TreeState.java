@@ -1,11 +1,9 @@
 package tree;
 
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public abstract class TreeState {
-    public abstract Tree left();
-    public abstract Tree right();
-    public abstract void dfs(List<Object> result);
-    public abstract void enqueueChildren(Queue<Tree> queue);
+    public abstract Tree getTree(String side);
+    public abstract List<Object> dfs();
+    public abstract void addToQueue(Queue<Tree> queue);
 }
