@@ -9,17 +9,18 @@ public class NonEmptyTree extends TreeState {
         this.tree = tree;
     }
 
-    @Override
-    public Tree getTree(String side) {
+    public Tree getLeftOrThrow() {
         return this.tree;
     }
 
-    @Override
+    public Tree getRightOrThrow() {
+        return this.tree;
+    }
+
     public List<Object> dfs() {
         return tree.dfs();
     }
 
-    @Override
     public void addToQueue(Queue<Tree> queue) {
         queue.add(this.tree);
     }
