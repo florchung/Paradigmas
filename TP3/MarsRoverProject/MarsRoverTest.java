@@ -10,7 +10,6 @@ public class MarsRoverTest {
 
     private MarsRover marsRover;
 
-    @BeforeEach
     public void setUp() {
         marsRover = new MarsRover(new Point(0, 0), new East());
     }
