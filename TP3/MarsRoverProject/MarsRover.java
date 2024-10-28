@@ -61,14 +61,12 @@ public class MarsRover {
         if (!upperHatchOpen) {
             throw new RuntimeException("Cannot aspirate air with upper hatch closed.");
         }
-        // aspirate air logic
     }
 
     public void collectSample() {
         if (!lowerHatchOpen) {
             throw new RuntimeException("Cannot collect sample with lower hatch closed.");
         }
-        // collect sample logic
     }
 
     public void updatePosition(Point point) {
