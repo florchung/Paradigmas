@@ -10,6 +10,7 @@ public class MarsRoverTest {
 
     private MarsRover marsRover;
 
+    @BeforeEach
     public void setUp() {
         marsRover = new MarsRover(new Point(0, 0), new East());
     }
@@ -118,4 +119,47 @@ public class MarsRoverTest {
         assertEquals(x, marsRover.getCoordinates().getXcoord());
         assertEquals(y, marsRover.getCoordinates().getYcoord());
     }
+
+    // Dirección adicional: Movimientos y giros desde el Oeste
+    @Test
+    public void test16MarsRoverMovesWest() {
+        marsRover = new MarsRover(new Point(0, 0), new West());
+        marsRover.receiveMessage("f");
+        assertCoords(-1, 0);
+    }
+
+    @Test
+    public void test17MarsRoverTurnsRightFromWestToNorth() {
+        marsRover = new MarsRover(new Point(0, 0), new West());
+        marsRover.receiveMessage("r");
+        assertEquals(new North(), marsRover.getDirection());
+    }
+
+//    // Secuencia compleja de movimientos
+//    @Test
+//    public void test18ComplexMovementSequence() {
+//        marsRover.receiveMessage("ffrfflffbbr");
+//        getCoordinate(3, 2);
+//    }
+
+    // Estado de escotillas: Apertura y cierre múltiples
+    @Test
+    public void test19ToggleUpperAndLowerHatches() {
+        marsRover.receiveMessage("O");
+        marsRover.receiveMessage("c");
+        marsRover.receiveMessage("o");
+        marsRover.receiveMessage("c");
+        assertThrows(RuntimeException.class, () -> marsRover.closeHatches()); // No se podria cerrar devuelta
+    }
+
+//    // Validación de secuencia incorrecta: Aspirar aire mientras se mueve
+//    @Test
+//    public void test20AspirateAirWhileMoving() {
+//        marsRover.receiveMessage("O");
+//        assertThrows(RuntimeException.class, () -> {
+//            marsRover.receiveMessage("ff");
+//            marsRover.aspirateAir();
+//        });
+//    }
+
 }
