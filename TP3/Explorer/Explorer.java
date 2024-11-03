@@ -46,7 +46,8 @@ public class Explorer {
     protected void recollect(){
         escotillas.gatherSamples();
     }
-    protected void SequenceOfOrders(String ordenes){
+    protected Explorer sequenceOfOrders(String ordenes){
         ordenes.chars().forEach(charascii-> order((char) charascii));
+        return this;
     }
 }
