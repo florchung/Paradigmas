@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class LowerHatchOpened extends Hatches{
     private String LA_ESCOTILLA_YA_ESTA_ABIERTA="La escotilla ya esta abierta";

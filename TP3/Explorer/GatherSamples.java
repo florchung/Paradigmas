@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class GatherSamples extends Command {
     protected GatherSamples(){

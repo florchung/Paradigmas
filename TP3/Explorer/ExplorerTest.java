@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

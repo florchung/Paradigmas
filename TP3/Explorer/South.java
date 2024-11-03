@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class South extends Cardinal{
     protected South(){

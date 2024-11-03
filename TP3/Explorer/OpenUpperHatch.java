@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class OpenUpperHatch extends Command {
     protected OpenUpperHatch(){

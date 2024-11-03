@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class Left extends Command {
     protected Left(){

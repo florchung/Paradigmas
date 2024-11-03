@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public abstract class Hatches {
 

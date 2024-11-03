@@ -1,4 +1,6 @@
-package explorer;
+package Explorer;
+
+import java.util.concurrent.Callable;
 
 public class Aspirate extends Command {
     protected Aspirate(){
@@ -7,4 +9,5 @@ public class Aspirate extends Command {
     protected void accion(Explorer explorer){
         explorer.inhale();
     }
+    
 }

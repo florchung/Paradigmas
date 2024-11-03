@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class BothHatchesClosed extends Hatches {
     private String NO_HAY_NINGUNA_ESCOTILLA_ABIERTA="No hay ninguna escotilla abierta";

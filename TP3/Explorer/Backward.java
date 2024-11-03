@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class Backward extends Command {
     protected Backward(){

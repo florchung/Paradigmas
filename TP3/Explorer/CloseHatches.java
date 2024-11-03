@@ -1,4 +1,4 @@
-package explorer;
+package Explorer;
 
 public class CloseHatches extends Command {
     protected CloseHatches(){
