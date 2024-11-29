@@ -20,14 +20,16 @@ public class Deck {
     }
 
     private void removeRandomCards() {
-        int cardsToRemove = (int) (Math.random() * 10) + 5;
+        int cardsToRemove = Math.min(cards.size() / 3, (int) (Math.random() * 10) + 5);
         cards = cards.stream()
-                .limit(cards.size() - cardsToRemove)
+                .skip(cardsToRemove)
                 .collect(Collectors.toCollection(Stack::new));
     }
 
     public Stream<Card> getCardsStream() {
-        return cards.stream();
+        Stack<Card> copy = new Stack<>();
+        copy.addAll(cards);
+        return copy.stream();
     }
 
     public Card drawCard() {
