@@ -10,12 +10,21 @@ public class Turn {
     }
 
     public void execute() {
-        if (player.getTokens() > 0 && Math.random() < 0.5) {
+        if (shouldPlaceToken()) {
             player.placeToken();
-            System.out.println(player.getName() + " colocó una ficha.");
+            card.addToken();
+            System.out.println(player.getName() + " colocó una ficha en la carta " + card.getValue());
         } else {
             player.takeCard(card);
-            System.out.println(player.getName() + " tomó la carta " + card.getValue());
+            player.addTokens(card.getTokens());
+            System.out.println(player.getName() + " tomó la carta " + card.getValue() + " con " + card.getTokens() + " fichas.");
         }
+    }
+
+    private boolean shouldPlaceToken() {
+        if (player.getTokens() == 0) {
+            return false;
+        }
+        return card.getValue() + card.getTokens() < 10 || Math.random() < 0.3;
     }
 }
