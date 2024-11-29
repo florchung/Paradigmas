@@ -2,6 +2,7 @@ package nothanks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Game {
     private List<Player> players;
@@ -47,17 +48,18 @@ public class Game {
     }
 
     public void advanceGame() {
-        deck.getCardsStream()
-                .takeWhile(card -> !isGameOver())
-                .forEach(card -> advanceTurn(card));
+        Stream.iterate(deck.drawCard(), card -> !isGameOver(), card -> deck.drawCard())
+                .forEach(this::advanceTurn);
     }
 
     private void advanceTurn(Card card) {
         Player currentPlayer = players.get(currentPlayerIndex);
+
         System.out.println("\nEs el turno de " + currentPlayer.getName());
         System.out.println("Carta actual: " + card.getValue() + " con " + card.getTokens() + " fichas.");
 
         new Turn(currentPlayer, card).execute();
+
         displayPlayersStatus();
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
