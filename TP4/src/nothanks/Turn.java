@@ -21,7 +21,7 @@ public class Turn {
         }
     }
 
-    private boolean shouldPlaceToken() {
+    boolean shouldPlaceToken() {
         if (player.getTokens() == 0) {
             return false;
         }
