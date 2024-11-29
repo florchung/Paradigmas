@@ -18,6 +18,10 @@ public class Player {
         return name;
     }
 
+    public void takeCard(Card card) {
+        cards.add(card);
+    }
+
     public int getTokens() {
         return tokens;
     }
@@ -27,20 +31,18 @@ public class Player {
         tokens--;
     }
 
-    public void takeCard(Card card) {
-        cards.add(card);
-    }
-
     public int calculatePoints() {
-        return cards.stream()
+        int[] result = cards.stream()
                 .map(Card::getValue)
                 .sorted()
-                .reduce(0, (sum, current) -> {
-                    if (sum == 0 || current > (sum & 0xFFFF) + 1) {
-                        return sum + current;
+                .reduce(new int[]{0, -2}, (acc, current) -> {
+                    if (current != acc[1] + 1) {
+                        acc[0] += current;
                     }
-                    return sum;
-                });
+                    acc[1] = current;
+                    return acc;
+                }, (a, b) -> a);
+        return result[0];
     }
 
     public void addTokens(int tokens) {
