@@ -18,34 +18,6 @@ public class Game {
         players.add(player);
     }
 
-    public void start() {
-        if (players.size() < 2) {
-            throw new IllegalStateException("El juego requiere al menos 2 jugadores.");
-        }
-        System.out.println("El juego ha comenzado.");
-        playTurns();
-        endGame();
-    }
-
-    private void playTurns() {
-        while (!deck.isEmpty()) {
-            Player currentPlayer = players.get(currentPlayerIndex);
-            Card currentCard = deck.drawCard();
-
-            System.out.println("Es el turno de " + currentPlayer.getName());
-            new Turn(currentPlayer, currentCard).execute();
-
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-        }
-    }
-
-    private void endGame() {
-        System.out.println("El juego ha terminado. Resultados finales:");
-        for (Player player : players) {
-            System.out.println(player.getName() + " tiene " + player.calculatePoints() + " puntos.");
-        }
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -54,4 +26,45 @@ public class Game {
         return deck;
     }
 
+    public void start() {
+        if (players.size() < 2) {
+            throw new IllegalStateException("El juego requiere al menos 2 jugadores.");
+        }
+        System.out.println("El juego ha comenzado.");
+        advanceGame();
+        endGame();
+    }
+
+    private boolean isGameOver() {
+        return deck.isEmpty();
+    }
+
+    private void endGame() {
+        System.out.println("\nEl juego ha terminado. Resultados finales:");
+        players.forEach(player ->
+                System.out.println(player.getName() + " tiene " + player.calculatePoints() + " puntos.")
+        );
+    }
+
+    public void advanceGame() {
+        deck.getCardsStream()
+                .takeWhile(card -> !isGameOver())
+                .forEach(card -> advanceTurn(card));
+    }
+
+    private void advanceTurn(Card card) {
+        Player currentPlayer = players.get(currentPlayerIndex);
+        System.out.println("\nEs el turno de " + currentPlayer.getName());
+        System.out.println("Carta actual: " + card.getValue() + " con " + card.getTokens() + " fichas.");
+
+        new Turn(currentPlayer, card).execute();
+        displayPlayersStatus();
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    }
+
+    private void displayPlayersStatus() {
+        players.forEach(player ->
+                System.out.println(player.getName() + " tiene " + player.getTokens() + " fichas y " + player.calculatePoints() + " puntos.")
+        );
+    }
 }
