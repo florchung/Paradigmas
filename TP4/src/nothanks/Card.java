@@ -1,23 +1,12 @@
-package nothanks;
+package NoGracias;
 
 public class Card {
     private int value;
-    private int tokens;
 
-    public Card(int value) {
-        this.value = value;
-        this.tokens = 0;
+    public Card(int value){
+        this.value=value;
     }
-
-    public int getValue() {
+    public int value(){
         return value;
-    }
-
-    public int getTokens() {
-        return tokens;
-    }
-
-    public void addToken() {
-        tokens++;
     }
 }
