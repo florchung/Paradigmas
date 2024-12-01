@@ -1,51 +1,37 @@
-package nothanks;
+package NoGracias;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class Player {
     private String name;
+    private ArrayList<Card> drawnCards = new ArrayList<>();
     private int tokens;
-    private List<Card> cards;
+    private String EL_JUGADOR_YA_NO_TIENE_MAS_FICHAS="El jugador ya no tiene mas fichas";
 
-    public Player(String name) {
+    public Player(String name, int tokens) {
         this.name = name;
-        this.tokens = 11;
-        this.cards = new ArrayList<>();
+        this.tokens = tokens;
     }
-
-    public String getName() {
+    public void useCoin(){
+        if(tokens==0){
+            throw new RuntimeException(EL_JUGADOR_YA_NO_TIENE_MAS_FICHAS);
+        }
+        tokens-=1;
+    }
+    public String name(){
         return name;
     }
-
-    public void takeCard(Card card) {
-        cards.add(card);
+    public int points(){
+        return -drawnCards.stream().reduce(0,(total,card)->total+card.value(), Integer ::sum)+ tokens;
     }
-
-    public int getTokens() {
-        return tokens;
+    public boolean equals(Objects anObject){
+        return Player.class.isInstance(anObject)&& name==Player.class.cast(anObject).name&&tokens==Player.class.cast(anObject).tokens;
     }
-
-    public void placeToken() {
-        if (tokens <= 0) throw new IllegalStateException(name + " no tiene más fichas.");
-        tokens--;
+    public void drawCard(Card aCard) {
+        drawnCards.add(aCard);
     }
-
-    public int calculatePoints() {
-        int[] result = cards.stream()
-                .map(Card::getValue)
-                .sorted()
-                .reduce(new int[]{0, -2}, (acc, current) -> {
-                    if (current != acc[1] + 1) {
-                        acc[0] += current;
-                    }
-                    acc[1] = current;
-                    return acc;
-                }, (a, b) -> a);
-        return result[0];
-    }
-
-    public void addTokens(int tokens) {
-        this.tokens += tokens;
+    public void addTokens(int tokensPot) {
+        tokens+=tokensPot;
     }
 }
