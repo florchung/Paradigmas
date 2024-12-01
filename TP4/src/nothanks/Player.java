@@ -1,37 +1,38 @@
 package NoGracias;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Player {
-    private String name;
-    private ArrayList<Card> drawnCards = new ArrayList<>();
-    private int tokens;
-    private String EL_JUGADOR_YA_NO_TIENE_MAS_FICHAS="El jugador ya no tiene mas fichas";
+
+public abstract class Player {
+    protected Player nextPlayerInTurn;
+    protected String name;
+    protected ArrayList<Card> drawnCards = new ArrayList<>();
+    protected int tokens;
 
     public Player(String name, int tokens) {
         this.name = name;
         this.tokens = tokens;
     }
-    public void useCoin(){
-        if(tokens==0){
-            throw new RuntimeException(EL_JUGADOR_YA_NO_TIENE_MAS_FICHAS);
-        }
-        tokens-=1;
-    }
+    public abstract void useCoin();
     public String name(){
         return name;
     }
-    public int points(){
-        return -drawnCards.stream().reduce(0,(total,card)->total+card.value(), Integer ::sum)+ tokens;
+
+
+    public abstract void drawCard(NoGracias game);
+
+
+    public Player turnPass(NoGracias noGracias) {
+        return nextPlayerInTurn;
     }
-    public boolean equals(Objects anObject){
-        return Player.class.isInstance(anObject)&& name==Player.class.cast(anObject).name&&tokens==Player.class.cast(anObject).tokens;
+
+    public abstract int points();
+    public void nextPlayer(Player aPlayer){
+        nextPlayerInTurn=aPlayer;
     }
-    public void drawCard(Card aCard) {
-        drawnCards.add(aCard);
-    }
-    public void addTokens(int tokensPot) {
+
+    public void addTokens(int tokensPot){
         tokens+=tokensPot;
     }
 }
+
