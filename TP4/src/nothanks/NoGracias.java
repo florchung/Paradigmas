@@ -5,55 +5,51 @@ import java.util.List;
 
 public class NoGracias {
     private ArrayList<Card> deck;
-    private List<Player> players;
-    private int turn;
+    private Player playerInTurn;
     private int tokensPot;
-    private String YA_NO_HAY_MAS_CARTAS = "Ya no hay mas cartas";
     private String NO_ES_TU_TURNO = "No es tu turno";
+    private List<ActivePlayer> players;
 
 
-    public NoGracias(List<Player>jugadores,ArrayList<Card>mazo){
+    public NoGracias(List<String> jugadores,ArrayList<Card>mazo, int tokens){
         deck=mazo;
-        players=jugadores;
-        turn =0;
+        players= jugadores.stream().map(player->new ActivePlayer(player,tokens)).toList();
+        players.stream().forEach(player->player.nextPlayer(players.get((players.indexOf(player)+1)%players.size())));
+        playerInTurn=players.get(0);
         tokensPot=0;
     }
-    public NoGracias useToken(Player aPlayer){
-        if (deck.isEmpty()){
-            throw new RuntimeException(YA_NO_HAY_MAS_CARTAS);
-        }
-        if(playerTurn()!=aPlayer){
+    public void verifyPlayer(String aName){
+        if(aName!= playerInTurn.name()){
             throw new RuntimeException(NO_ES_TU_TURNO);
         }
-        aPlayer.useCoin();
+    }
+    public NoGracias useToken(String aName){
+        verifyPlayer(aName);
+        playerInTurn.useCoin();
         tokensPot+=1;
         nextTurn();
         return this;
     }
-    public Player playerTurn(){
-       return players.get(turn%players.size());
+    public void getPlayerInTurn(Player aPlayer){
+        playerInTurn = aPlayer;
     }
-    public NoGracias draw(Player aplayer){
-        if (deck.isEmpty()){
-            throw new RuntimeException(YA_NO_HAY_MAS_CARTAS);
-        }
-        if(playerTurn()!=aplayer){
-            throw new RuntimeException(NO_ES_TU_TURNO);
-        }
-        Card aCard = deck.remove(0);
-        aplayer.drawCard(aCard);
-        aplayer.addTokens(tokensPot);
+    private void nextTurn() {
+        playerInTurn = playerInTurn.turnPass(this);
+    }
+    public NoGracias draw(String aName){
+        verifyPlayer(aName);
+        playerInTurn.drawCard(this);
+        playerInTurn.addTokens(tokensPot);
         tokensPot=0;
         return this;
     }
-    public void nextTurn(){
-        turn+=1;
-    }
-    public int quantityOfPlayers(){
-        return players.size();
+    public int getPoints(String aName){
+        return players.stream().filter(player->player.name()==aName).findFirst().get().points();
     }
     public int quantityOfCards(){
         return deck.size();
     }
-
+    public List<Card> deck() {
+        return deck;
+    }
 }
