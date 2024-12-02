@@ -1,10 +1,10 @@
-package NoGracias;
+package nothanks;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class NoGracias {
+public class NoThanks {
     private ArrayList<Card> deck;
     private Player playerInTurn;
     private int tokensPot;
@@ -12,7 +12,7 @@ public class NoGracias {
     private List<ActivePlayer> players;
 
 
-    public NoGracias(List<String> jugadores, ArrayList<Card> mazo, int tokens) {
+    public NoThanks(List<String> jugadores, ArrayList<Card> mazo, int tokens) {
         deck = mazo;
         players = jugadores.stream().map(player -> new ActivePlayer(player, tokens)).toList();
         players.stream().forEach(player -> player.nextPlayer(players.get((players.indexOf(player) + 1) % players.size())));
@@ -26,7 +26,7 @@ public class NoGracias {
         }
     }
 
-    public NoGracias useToken(String aName) {
+    public NoThanks useToken(String aName) {
         verifyPlayer(aName);
         playerInTurn.useCoin();
         tokensPot += 1;
@@ -42,7 +42,7 @@ public class NoGracias {
         playerInTurn = playerInTurn.turnPass(this);
     }
 
-    public NoGracias draw(String aName) {
+    public NoThanks draw(String aName) {
         verifyPlayer(aName);
         playerInTurn.drawCard(this);
         playerInTurn.addTokens(tokensPot);
@@ -69,8 +69,8 @@ public class NoGracias {
         return players.stream().max(Comparator.comparingInt(Player::points)).get().name();
     }
 
-    public String looser() {
-        if (playerInTurn.getClass() == NobodyPlays.class) {
+    public String loser() {
+        if (playerInTurn.getClass() != NobodyPlays.class) {
             throw new RuntimeException("El juego aun no termino");
         }
         return players.stream().min(Comparator.comparingInt(Player::points)).get().name();
