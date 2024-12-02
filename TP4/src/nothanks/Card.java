@@ -1,4 +1,4 @@
-package NoGracias;
+package nothanks;
 
 public class Card {
     private int value;
@@ -6,6 +6,7 @@ public class Card {
     public Card(int value){
         this.value=value;
     }
+
     public int value(){
         return value;
     }
