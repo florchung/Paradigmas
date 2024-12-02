@@ -1,6 +1,7 @@
 package NoGracias;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class NoGracias {
@@ -11,45 +12,67 @@ public class NoGracias {
     private List<ActivePlayer> players;
 
 
-    public NoGracias(List<String> jugadores,ArrayList<Card>mazo, int tokens){
-        deck=mazo;
-        players= jugadores.stream().map(player->new ActivePlayer(player,tokens)).toList();
-        players.stream().forEach(player->player.nextPlayer(players.get((players.indexOf(player)+1)%players.size())));
-        playerInTurn=players.get(0);
-        tokensPot=0;
+    public NoGracias(List<String> jugadores, ArrayList<Card> mazo, int tokens) {
+        deck = mazo;
+        players = jugadores.stream().map(player -> new ActivePlayer(player, tokens)).toList();
+        players.stream().forEach(player -> player.nextPlayer(players.get((players.indexOf(player) + 1) % players.size())));
+        playerInTurn = players.get(0);
+        tokensPot = 0;
     }
-    public void verifyPlayer(String aName){
-        if(aName!= playerInTurn.name()){
+
+    public void verifyPlayer(String aName) {
+        if (aName != playerInTurn.name()) {
             throw new RuntimeException(NO_ES_TU_TURNO);
         }
     }
-    public NoGracias useToken(String aName){
+
+    public NoGracias useToken(String aName) {
         verifyPlayer(aName);
         playerInTurn.useCoin();
-        tokensPot+=1;
+        tokensPot += 1;
         nextTurn();
         return this;
     }
-    public void getPlayerInTurn(Player aPlayer){
+
+    public void getPlayerInTurn(Player aPlayer) {
         playerInTurn = aPlayer;
     }
+
     private void nextTurn() {
         playerInTurn = playerInTurn.turnPass(this);
     }
-    public NoGracias draw(String aName){
+
+    public NoGracias draw(String aName) {
         verifyPlayer(aName);
         playerInTurn.drawCard(this);
         playerInTurn.addTokens(tokensPot);
-        tokensPot=0;
+        tokensPot = 0;
         return this;
     }
-    public int getPoints(String aName){
-        return players.stream().filter(player->player.name()==aName).findFirst().get().points();
+
+    public int getPoints(String aName) {
+        return players.stream().filter(player -> player.name() == aName).findFirst().get().points();
     }
-    public int quantityOfCards(){
+
+    public int quantityOfCards() {
         return deck.size();
     }
+
     public List<Card> deck() {
         return deck;
+    }
+
+    public String winner() {
+        if (playerInTurn.getClass() != NobodyPlays.class) {
+            throw new RuntimeException("El juego aun no termino");
+        }
+        return players.stream().max(Comparator.comparingInt(Player::points)).get().name();
+    }
+
+    public String looser() {
+        if (playerInTurn.getClass() == NobodyPlays.class) {
+            throw new RuntimeException("El juego aun no termino");
+        }
+        return players.stream().min(Comparator.comparingInt(Player::points)).get().name();
     }
 }
