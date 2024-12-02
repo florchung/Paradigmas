@@ -13,12 +13,12 @@ public class ActivePlayer extends Player{
         tokens-=1;
     }
     public void drawCard(NoGracias game) {
-        if(game.deck().size()==1){
+        if (game.deck().size() == 1) {
             drawCard(game.deck().remove(0));
-            game.getPlayerInTurn(new NobodyPlays(name,points()));
+            game.getPlayerInTurn(new NobodyPlays(name, points()));
+        } else {
+            drawnCards.add(game.deck().remove(0));
         }
-        drawnCards.add(game.deck().remove(0));
-
     }
 
     public int points() {
