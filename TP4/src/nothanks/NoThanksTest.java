@@ -52,27 +52,53 @@ public class NoGraciasTest {
         assertEquals(0,game.getPoints("jugador1"));
         assertEquals(2,game.getPoints("jugador2"));;
     }
-//    @Test public void DrawACardInAnEmptyDeck(){
-//        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
-//        assertThrowsLike("Ya no hay mas cartas",()->game.draw("jugador1"));
-//    }
-//    @Test public void TryToUseTokenInAnEmptyDeck(){
-//        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
-//        assertThrowsLike("Ya no hay mas cartas",()->game.useToken("jugador1"));
-//    }
-//    @Test public void TryToUseTokenButDontHaveAnyMore(){
-//        game.useToken("jugador1").useToken("jugador2").useToken("jugador1").useToken("jugador2").useToken("jugador1").useToken("jugador2");
-//        assertThrowsLike("El jugador ya no tiene mas fichas", ()->game.useToken("jugador1"));
-//    }
-//
+    @Test public void DrawACardInAnEmptyDeck(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
+        assertThrowsLike("El juego ya termino",()->game.draw("jugador1"));
+        assertEquals(-60,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+    }
+    @Test public void TryToUseTokenInAnEmptyDeck(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
+        assertThrowsLike("El juego ya termino",()->game.useToken("jugador1"));
+        assertEquals(-60,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+    }
+    @Test public void TryToUseTokenButDontHaveAnyMore(){
+        game.useToken("jugador1").useToken("jugador2").useToken("jugador1").useToken("jugador2").useToken("jugador1").useToken("jugador2");
+        assertThrowsLike("El jugador ya no tiene mas fichas", ()->game.useToken("jugador1"));
+        assertEquals(0,game.getPoints("jugador1"));
+        assertEquals(0,game.getPoints("jugador2"));
+    }
+    @Test public void Winner(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
+        assertThrowsLike("El juego ya termino",()->game.useToken("jugador1"));
+        assertEquals(-60,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+        assertEquals("jugador2",game.winner());
+    }
+    @Test public void AskingForAWinnerWhenTheGameDidNotEnd(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1");
+        assertEquals(-8,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+        assertThrowsLike("El juego aun no termino",()->game.winner());
+
+    }
+    @Test public void Looser(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1").draw("jugador1");
+        assertThrowsLike("El juego ya termino",()->game.useToken("jugador1"));
+        assertEquals(-60,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+        assertEquals("jugador1",game.looser());
+    }
+    @Test public void AskingForALooserrWhenTheGameDidNotEnd(){
+        game.draw("jugador1").draw("jugador1").draw("jugador1");
+        assertEquals(-8,game.getPoints("jugador1"));
+        assertEquals(3,game.getPoints("jugador2"));
+        assertThrowsLike("El juego aun no termino",()->game.looser());
+    }
+
     private static void assertThrowsLike(String msg, Executable executable) {
         assertEquals(msg, assertThrows(RuntimeException.class, executable).getMessage());
     }
-//    private static void assertGame(int quantityOfPlayers, int quantityOfCards, int player1Points, int Player2Points) {
-//        assertEquals(quantityOfPlayers,game.quantityOfPlayers());
-//        assertEquals(quantityOfCards,game.quantityOfCards());
-//        assertEquals(player1Points,"jugador1".points());
-//        assertEquals(Player2Points,"jugador2".points());
-//    }
-//ganador perdedor
 }
