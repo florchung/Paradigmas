@@ -17,20 +17,14 @@ public abstract class Player {
     public String name(){
         return name;
     }
-
-
     public abstract void drawCard(NoGracias game);
-
-
     public Player turnPass(NoGracias noGracias) {
         return nextPlayerInTurn;
     }
-
     public abstract int points();
     public void nextPlayer(Player aPlayer){
         nextPlayerInTurn=aPlayer;
     }
-
     public void addTokens(int tokensPot){
         tokens+=tokensPot;
     }
